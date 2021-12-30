@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import { Calendar } from "./calendar";
 
 
-export function ModalBox({ book, success, cancle }) {
-    let title='Borrow Period and Pricing';
+export function ModalBox({isAdmin,title, book, success, cancle }) {
 
     if (document.readyState === "complete") {
         setTimeout(() => {
@@ -32,13 +31,13 @@ export function ModalBox({ book, success, cancle }) {
                                 Price:- {book.price}<br/>
                             </div>
                             <hr />
-                           <Calendar bookPrice={book.price} success={(days,cost)=>success(days,cost)} cancle={()=>cancle()} />
+                          {!isAdmin &&  <Calendar bookPrice={book.price} success={(days,cost)=>success(days,cost)} cancle={()=>cancle()} />}
 
                         </div>
-                        {/* <div className="modal-footer">
+                        {isAdmin && <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => cancle()}>Close</button>
-                            <button type="button" className="btn btn-primary" disabled>Save changes</button>
-                        </div> */}
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={()=>{success(book)}}>{title}</button>
+                        </div> }
                     </div>
                 </div>
             </div>

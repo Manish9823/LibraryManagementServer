@@ -6,7 +6,8 @@ import { ModalBox } from "../components/modalBox";
 export function User() {
     const [book,setBook]=useState({})
     const [modal,callModal]=useState(false);
-    let Books = getAllBooks();
+    let b = getAllBooks();
+    let Books=b.data;
     
     const button = (book) => {
         setBook(book);
@@ -20,13 +21,14 @@ export function User() {
             cost:cost,
             username:localStorage.getItem('username')
         }
-        let result=borrowBook(book,metaData);
+        let result=borrowBook(book,metaData); 
+        console.log(Books,"from page")              
     }
 
     return (
         <>
             <div className="container m-lg-3 m-md-2 m-0">
-               { modal && <ModalBox book={book} success={(days,cost)=>DoBorrowBook(days,cost)} cancle={()=>callModal(false)} /> }
+               { modal && <ModalBox isAdmin={false} title='Borrow And Pricing' book={book} success={(days,cost)=>DoBorrowBook(days,cost)} cancle={()=>callModal(false)} /> }
                 <h1>Library Books List
                 </h1>
                 <ListBox isAdmin={false} Books={Books} callback={(book) => button(book)} />

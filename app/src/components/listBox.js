@@ -9,7 +9,7 @@ export function ListBox({ isAdmin, Books, callback,updateBook }) {
             {!isAdmin && <div className="row p-lg-3 p-md-3 p-0 pt-5">
 
                 <>
-                    {Books.data.map((book1, index) =>
+                    {Books.map((book1, index) =>
                         (<Card book={book1} index={index} callback={(book) => callback(book)} />)
                     )}
                 </>
@@ -29,8 +29,8 @@ export function ListBox({ isAdmin, Books, callback,updateBook }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {Books.data.map((book1, index) =>
-                                (<TR book={book1} index={index} callback={(book) => callback(book)} updateBook={(newTitle,newAuthor,newPrice)=>updateBook(newTitle,newAuthor,newPrice)} />)
+                            {Books.map((book1, index) =>
+                                (<TR book={book1} index={index} deleteBook={(book) => callback(book)} updateBook={(book,newTitle,newAuthor,newPrice)=>updateBook(book,newTitle,newAuthor,newPrice)} />)
                             )}
                         </tbody>
                     </table>
