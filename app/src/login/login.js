@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import { LoginComponent } from "./component/login-component";
 import { checkAdmin, checkUser } from "./service/dataService";
 
@@ -7,20 +8,22 @@ export function Login() {
     const [isAdmin, setIsAdmin] = useState(false);
     const [adminError, setAdminError] = useState('');
     const [userError, setUserError] = useState('');
+    const Navigate=useNavigate();
 
     const Admin = (username, password) => {
         let str = checkAdmin(username, password);
         setAdminError(str.msg);
-        if(str.status="success"){
-            
+        if(str.status==="success"){
+            Navigate('../admin',{replace:true})
         }
     }
 
     const User = (username, password) => {
         let str = checkUser(username, password);
         setUserError(str.msg);
-        if(str.status="success"){
-
+        if(str.status==="success"){
+            localStorage.setItem('username',username);
+            Navigate('../user',{replace:true})
         }
     }
 
@@ -28,7 +31,7 @@ export function Login() {
         <div className="row d-flex justify-content-center">
             {
                 !isAdmin &&
-                <div className="col-4 mt-5">
+                <div className="col-lg-4 col-md-5 col-sm-9 p-4">
                     <LoginComponent role='User ' callback={(username, password) => User(username, password)} />
                     <div className=" m-2 p-1">
                         {userError}
@@ -39,7 +42,7 @@ export function Login() {
 
             {
                 isAdmin &&
-                <div className="col-4 mt-5">
+                <div className="col-lg-4 col-md-5 col-sm-9 p-4">
                     <LoginComponent role='Admin' callback={(username, password) => Admin(username, password)} />
                     <div className=" m-2 p-1">
                         {adminError}
@@ -50,3 +53,4 @@ export function Login() {
         </div>
     );
 }
+
