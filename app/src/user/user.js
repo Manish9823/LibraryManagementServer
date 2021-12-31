@@ -14,11 +14,12 @@ export function User() {
         callModal(true)
     }
 
-    const DoBorrowBook=(days,cost)=>{
+    const DoBorrowBook=(days,cost,borrowDate)=>{
         callModal(false);
         let metaData={
             days:days,
             cost:cost,
+            borrowDate:borrowDate,
             username:localStorage.getItem('username')
         }
         let result=borrowBook(book,metaData); 
@@ -28,7 +29,7 @@ export function User() {
     return (
         <>
             <div className="container m-lg-3 m-md-2 m-0">
-               { modal && <ModalBox isAdmin={false} title='Borrow And Pricing' book={book} success={(days,cost)=>DoBorrowBook(days,cost)} cancle={()=>callModal(false)} /> }
+               { modal && <ModalBox isAdmin={false} title='Borrow And Pricing' book={book} success={(days,cost,borrowDate)=>DoBorrowBook(days,cost,borrowDate)} cancle={()=>callModal(false)} /> }
                 <h1>Library Books List
                 </h1>
                 <ListBox isAdmin={false} Books={Books} callback={(book) => button(book)} />

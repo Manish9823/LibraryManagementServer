@@ -32,7 +32,7 @@ export function Calendar({bookPrice,success,cancle}) {
             <hr />
             <div className="text text-center">
             <button type="button" className="btn btn-danger m-2 col-4 " data-bs-dismiss="modal" onClick={()=>{cancle()}}>Cancle</button>
-            <button type="button" className="btn btn-warning m-2 col-5" data-bs-dismiss="modal" onClick={()=>success(days,(Number(days)*bookPrice*0.001))}>Borrow</button>
+            <button type="button" className="btn btn-warning m-2 col-5" data-bs-dismiss="modal" onClick={()=>success(days,(Number(days)*bookPrice*0.001,today))}>Borrow</button>
             </div>
         </div>
     </>)
