@@ -1,23 +1,15 @@
 import { useState } from "react";
 const url='http://localhost:3030';
-let Books=[];
+
 
 export async function getAllBooks(success,failure) {
 
-    // let temp=Books.map((book)=>{
-    //     let title=book.title;
-    //     let author=book.authors[0];
-    //     let categories='';
-    //     if(book.categories.length==0){
-    //         categories='Others'
-    //     }
-    //     else{
-    //         categories=book.categories[0];
-    //     }
-    //     let price=Math.floor(Math.random()*10000+100);
-    //     return {title,author,price,categories};
-    // })
+    
+   
     // console.log(temp)
+
+
+
 
     const xhr=new XMLHttpRequest();
     xhr.open('GET',`${url}/getBooks`,true);

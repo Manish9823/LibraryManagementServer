@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import { addUser } from "../service/dataService";
 
 export function Registration() {
 
@@ -18,14 +19,14 @@ export function Registration() {
 
         if(result){
             if (password === confirmPassword) {
-                let str = addUser(username, password);
-                if(str.status==="success"){
-                    localStorage.setItem('username',username);
-                    Navigate('../user',{replace:true})
-                }
-            }
-            else {
-                setError('Password not Match...');
+                addUser(username, password,(result)=>{
+                    if(result.status==="success"){
+                        localStorage.setItem('username',username);
+                        Navigate('../user',{replace:true})
+                    }
+                },(err)=>{
+                    setError('Password not Match...');
+                });
             }
         }
         else{

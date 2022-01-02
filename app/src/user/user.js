@@ -48,7 +48,9 @@ export function User() {
                     <Header title="Library Book List" isUser={true} />
                 </div>
                 <hr/>
+                <div className="bg-dark">
                 <ListBox isAdmin={false} Books={Books} callback={(book) => button(book)} />
+                </div>
             </div>
         </>
     );
