@@ -1,58 +1,132 @@
 import { useState } from "react";
+const url='http://localhost:3030';
+let Books=[];
 
-let Books = [
-    { title: 'T1', author: 'A1', price: 2000, Avaliability: 'Available', metaData: {} },
-    { title: 'T2', author: 'A2', price: 3000, Avaliability: 'Available', metaData: {} },
-    {title: 'T3', author: 'A3', price: 1000, Avaliability: 'Unavailable', metaData: {days: 12,cost: 50,borrowDate: '2021-12-25',username: 'user'}},
-    { title: 'T4', author: 'A4', price: 2000, Avaliability: 'Available', metaData: {} },
-    { title: 'T5', author: 'A5', price: 4000, Avaliability: 'Available', metaData: {} },
-    { title: 'T6', author: 'A6', price: 5000, Avaliability: 'Available', metaData: {} },
-]
+export async function getAllBooks(success,failure) {
 
+    // let temp=Books.map((book)=>{
+    //     let title=book.title;
+    //     let author=book.authors[0];
+    //     let categories='';
+    //     if(book.categories.length==0){
+    //         categories='Others'
+    //     }
+    //     else{
+    //         categories=book.categories[0];
+    //     }
+    //     let price=Math.floor(Math.random()*10000+100);
+    //     return {title,author,price,categories};
+    // })
+    // console.log(temp)
 
-export function getAllBooks() {
-    return { status: "success", data: Books };
-}
-
-
-
-export function borrowBook(book, metaData) {
-    Books = Books.map((b) => {
-        if (b === book) {
-            return { ...book, Avaliability: 'Unavailable', metaData: metaData };
+    const xhr=new XMLHttpRequest();
+    xhr.open('GET',`${url}/getBooks`,true);
+    xhr.onload=()=>{
+        if(xhr.status===200){
+            let json=JSON.parse(xhr.responseText);
+            success({status:"success",data:json});
         }
-        return b;
-    })
-    console.log(Books, "from data server")
-    return { status: "success", msg: 'Borrowed book successfully' }
-}
-
-export function addBook(title, author, price) {
-    let newBook=[{ title: title, author: author, price: Number(price), Avaliability: 'Available', metaData: {} }]
-    Books=Books.concat(newBook);
-    return { status: "success", msg: 'Data added' }
-}
-
-export function deleteBook(book) {
-    Books = Books.filter((b) => {
-        if (b !== book) {
-            return b;
+        else{
+            failure("error from server.......")
         }
-    })
-    console.log(Books, "from data server")
-    return { status: "success", msg: 'Book deleted' }
+    }
+    xhr.onerror=(err)=>{
+        failure(err)
+    }
+    xhr.ontimeout=(err)=>{
+        failure(err);
+    }
+    xhr.send();
 }
 
-export function updateBook( book, newTitle, newAuthor, newPrice ) {
-    console.log(book);
-    Books = Books.map((b) => {
-        if (b === book) {
-            console.log('got')
-            return { title: newTitle, author: newAuthor, price: newPrice, Avaliability: 'Available', metaData: {} };
+export async function borrowBook(book, metaData,success,failure) {
+    const xhr=new XMLHttpRequest();
+    xhr.open('POST',`${url}/borrowBook`,true);     
+    xhr.setRequestHeader('Content-type','application/json');
+    xhr.onload=()=>{
+        if(xhr.status===200){
+           success(JSON.parse(xhr.responseText))
         }
-        console.log('not got')
-        return b;
-    })
-    console.log(Books,"data from server")
-    return { status: "success", msg: "book updated" }
+        else{
+            failure("error from server.......")
+        }
+    }
+    xhr.onerror=(err)=>{
+        failure(err)
+    }
+    xhr.ontimeout=(err)=>{
+        failure(err);
+    }
+    let borrowBook={book:book,metaData:metaData};
+    let data=JSON.stringify(borrowBook);
+    xhr.send(data);
+}
+
+export async function addBook(title, author, price,success,failure) {
+    const xhr=new XMLHttpRequest();
+    xhr.open('POST',`${url}/addBook`,true);     
+    xhr.setRequestHeader('Content-type','application/json');
+    xhr.onload=()=>{
+        if(xhr.status===200){
+           success(JSON.parse(xhr.responseText))
+        }
+        else{
+            failure("error from server.......")
+        }
+    }
+    xhr.onerror=(err)=>{
+        failure(err)
+    }
+    xhr.ontimeout=(err)=>{
+        failure(err);
+    }
+    let newBook={title:title,author:author,price:price};
+    let data=JSON.stringify(newBook);
+    xhr.send(data);
+}
+
+
+export async function deleteBook(book,success,failure) {
+    const xhr=new XMLHttpRequest();
+    xhr.open('POST',`${url}/deleteBook`,true);     
+    xhr.setRequestHeader('Content-type','application/json');
+    xhr.onload=()=>{
+        if(xhr.status===200){
+           success(JSON.parse(xhr.responseText))
+        }
+        else{
+            failure("error from server.......")
+        }
+    }
+    xhr.onerror=(err)=>{
+        failure(err)
+    }
+    xhr.ontimeout=(err)=>{
+        failure(err);
+    }
+    let data=JSON.stringify(book);
+    xhr.send(data);
+}
+
+export async function updateBook( book, newTitle, newAuthor, newPrice,success,failure ) {
+    const xhr=new XMLHttpRequest();
+    xhr.open('POST',`${url}/updateBook`,true);     
+    xhr.setRequestHeader('Content-type','application/json');
+    xhr.onload=()=>{
+        if(xhr.status===200){
+           success(JSON.parse(xhr.responseText))
+        }
+        else{
+            failure("error from server.......")
+        }
+    }
+    xhr.onerror=(err)=>{
+        failure(err)
+    }
+    xhr.ontimeout=(err)=>{
+        failure(err);
+    }
+    let updateBook={book:book,title:newTitle,author:newAuthor,price:newPrice};
+    let data=JSON.stringify(updateBook);
+    xhr.send(data);
 }

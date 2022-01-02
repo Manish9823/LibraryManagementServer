@@ -3,7 +3,7 @@ import { Card } from "./card";
 import { TR } from './TR'
 
 
-export function ListBox({available, isAdmin, Books, callback,updateBook }) {
+export function ListBox({available, isAdmin, Books, callback,updateBook,metaData }) {
 
     let Book=Books;
     let index=0;
@@ -11,11 +11,11 @@ export function ListBox({available, isAdmin, Books, callback,updateBook }) {
 
     return (
         <>
-            {!isAdmin && <div className="row p-lg-3 p-md-3 p-0 pt-5">
+            {!isAdmin && <div className="row p-lg-3 p-md-3 p-2 pt-lg-4 pt-md-3 pt-1">
 
                 <>
                     {Book.map((book1, index) =>
-                        (<Card book={book1} index={index} callback={(book) => callback(book)} />)
+                        (<Card book={book1} index={index} callback={(book) => callback(book)} metaData={metaData} />)
                     )}
                 </>
             </div>
@@ -37,7 +37,7 @@ export function ListBox({available, isAdmin, Books, callback,updateBook }) {
                             {available && Book.map((book1) =>
                                 {
                                     if(book1.Avaliability==='Available'){
-                                        return (<TR book={book1} index={index++} deleteBook={(book) => callback(book)} updateBook={(book,newTitle,newAuthor,newPrice)=>updateBook(book,newTitle,newAuthor,newPrice)} />)
+                                        return (<TR book={book1} index={index++} deleteBook={(book) => callback(book)} updateBook={(book,newTitle,newAuthor,newPrice)=>updateBook(book,newTitle,newAuthor,newPrice)}  />)
                                     }
                                 }  
                             )}

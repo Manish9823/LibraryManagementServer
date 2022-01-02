@@ -2,7 +2,7 @@ import React from 'react';
 import './component.css'
 
 
-export function Card({book,index,callback}) {
+export function Card({book,index,callback,metaData}) {
     let bool = false;
     if (book.Avaliability != 'Available') {
         bool = true;
@@ -15,6 +15,7 @@ export function Card({book,index,callback}) {
                 <h4 class="card-title">{book.title}</h4>
                 <p class="card-text">Author:- {book.author}</p>
                 <p class="card-text">Price:- {book.price}</p>
+               
             </div>
             <div className="card-footer">
             {!bool &&
@@ -22,11 +23,19 @@ export function Card({book,index,callback}) {
                         <span className="text text-success">{book.Avaliability}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span><input className="btn btn-warning" type="button" value="Borrow" onClick={() => callback(book)} /></span>
                     </>}
-                {bool &&
+                {bool && !metaData &&
                     <>
                         <span className="text text-danger">{book.Avaliability}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span><input disabled className="btn btn-dark" type="button" value="Borrow" /></span>
                     </>}
+
+                    {bool && metaData &&
+                    <>
+                    <p className='card-text'>Borrowed Cost:- {book.metaData.cost}$</p>
+                    <p className='card-text'>Borrowed Date:- {book.metaData.borrowDate}</p> 
+                    <p className='card-text'>Borrowed Period:- {book.metaData.days} days</p> 
+                    </>
+                }
             </div>
         </div>
     </div>

@@ -32,7 +32,7 @@ export function ModalBox({ isAdmin, isShowMore, title, book, success, cancle }) 
                                 Price:- {book.price}<br />
                             </div>
 
-                            {!isAdmin && <><hr /> <Calendar bookPrice={book.price} success={(days, cost,borrowDate) => success(days, cost,borrowDate)} cancle={() => cancle()} /> </>}
+                            {!isAdmin && <><hr /> <Calendar bookPrice={book.price} success={(days,cost,borrowDate) => success(days,cost,borrowDate)} cancle={() => cancle()} /> </>}
 
                         </div>
 

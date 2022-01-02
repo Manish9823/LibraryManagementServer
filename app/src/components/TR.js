@@ -60,6 +60,7 @@ export function TR({book, index, deleteBook,updateBook}) {
                         <td>{newTitle}</td>
                         <td>{newAuthor} </td>
                         <td>{newPrice}  </td>
+
                         <td className="text text-danger">Borrowed</td>
                         <td><input className="btn btn-warning btn-sm" type="button" value="Show More" onClick={()=>setShowMore(true)} /></td>
                     </>}

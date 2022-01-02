@@ -11,20 +11,31 @@ export function Login() {
     const Navigate=useNavigate();
 
     const Admin = (username, password) => {
-        let str = checkAdmin(username, password);
-        setAdminError(str.msg);
-        if(str.status==="success"){
-            Navigate('../admin',{replace:true})
-        }
+        checkAdmin(username, password,(result)=>{
+            if(result.status==="success"){
+                localStorage.setItem('username',username);
+                Navigate('../admin',{replace:true})
+            }
+            else{
+                setAdminError(result.msg);
+            }
+        },(err)=>{
+            setAdminError(err);
+        });
     }
 
     const User = (username, password) => {
-        let str = checkUser(username, password);
-        setUserError(str.msg);
-        if(str.status==="success"){
-            localStorage.setItem('username',username);
-            Navigate('../user',{replace:true})
-        }
+        checkUser(username, password,(result)=>{
+            if(result.status==="success"){
+                localStorage.setItem('username',username);
+                Navigate('../user',{replace:true})
+            }
+            else{
+                setUserError(result.msg);
+            }
+        },(err)=>{
+            setUserError(err);
+        });
     }
 
     return (
@@ -33,20 +44,25 @@ export function Login() {
                 !isAdmin &&
                 <div className="col-lg-4 col-md-5 col-sm-9 p-4">
                     <LoginComponent role='User ' callback={(username, password) => User(username, password)} />
-                    <div className=" m-2 p-1">
+                    <p className=" m-2 p-1 text-danger">
                         {userError}
-                    </div>
+                    </p>
                     <a className="link link-primary" style={{ cursor: 'pointer' }} onClick={() => setIsAdmin(true)}>Admin Login ?</a>
+                    <br />
+                    <br />
+                    <p>New User ? <a className="" href="/registration"> Create an account</a></p>
                 </div>
+
+
             }
 
             {
                 isAdmin &&
                 <div className="col-lg-4 col-md-5 col-sm-9 p-4">
                     <LoginComponent role='Admin' callback={(username, password) => Admin(username, password)} />
-                    <div className=" m-2 p-1">
+                    <p className=" m-2 p-1 text-danger">
                         {adminError}
-                    </div>
+                    </p>
                     <a className="link link-primary" style={{ cursor: 'pointer' }} onClick={() => setIsAdmin(false)}>User Login ?</a>
                 </div>
             }
